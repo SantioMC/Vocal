@@ -9,6 +9,8 @@ require('dotenv').config({
 
 import { createExpressServer } from 'routing-controllers';
 
+const started = Date.now();
+
 const token = process.env.APP_TOKEN;
 const port = process.env.API_PORT ?? 3000;
 
@@ -37,5 +39,7 @@ const app = createExpressServer({
 
 app.once('listening', () => {
 	console.log(`Server listening on port ${port}`);
-	socket.start();
+	socket.start().then(() => {
+		console.log(`Vocal ready in ${Date.now() - started}ms`);
+	});
 });

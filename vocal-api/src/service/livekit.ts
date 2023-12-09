@@ -53,10 +53,12 @@ export const handleData = async (location: EntityLocation) => {
 	const player = connected.find((p) => p.uuid === location.player);
 	if (!player) return;
 
-	if (player.nearby.toString() !== location.nearby.toString()) {
+	const nearby = player.nearby ?? [];
+
+	if (nearby.toString() !== location.nearby.toString()) {
 		const uuids = location.nearby.map((n) => n.player);
-		const toSubscribe = uuids.filter((n) => !player.nearby.includes(n));
-		const toUnsubscribe = player.nearby.filter((n) => !uuids.includes(n));
+		const toSubscribe = uuids.filter((n) => !nearby.includes(n));
+		const toUnsubscribe = nearby.filter((n) => !uuids.includes(n));
 
 		for (const entity of toSubscribe) {
 			updateSubscription(player, entity, true);

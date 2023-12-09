@@ -15,7 +15,7 @@ const io = new Server({
 client.use(io.of('/client'));
 server.use(io.of('/server'));
 
-export const start = () => {
+export const start = async () => {
 	const port = parseInt(process.env.WS_PORT ?? '3001');
 
 	io.listen(port);
