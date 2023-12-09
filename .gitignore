@@ -1,0 +1,39 @@
+plugin/.gradle
+plugin/build/
+plugin/**/build/
+plugin/!gradle/wrapper/gradle-wrapper.jar
+plugin/!**/src/main/**/build/
+plugin/!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+plugin/.idea/
+plugin/*.iws
+plugin/*.iml
+plugin/*.ipr
+plugin/out/
+plugin/!**/src/main/**/out/
+plugin/!**/src/test/**/out/
+
+### VS Code ###
+plugin/.vscode/
+
+### Mac OS ###
+.DS_Store
+
+.env
+.env.*
+!.env.example
+
+# Personal documentation (not important, meant to help understand weird stuff in the backend)
+doc/
+
+vocal-api/node_modules/
+
+website/node_modules
+website/build
+website/.svelte-kit
+website/package
+website/.vercel
+website/.output
+website/vite.config.js.timestamp-*
+website/vite.config.ts.timestamp-*

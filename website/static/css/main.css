@@ -1,0 +1,94 @@
+body {
+	background-color: #3a3a3c;
+	color: #eee;
+
+	margin: 0;
+	padding: 0;
+
+	width: 100vw;
+	height: 100vh;
+
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+}
+
+main,
+section {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	width: 100%;
+	height: 100%;
+}
+
+main {
+	display: flex;
+}
+
+h1 {
+	font-size: 3rem;
+	margin: 0;
+	user-select: none;
+}
+
+h2 {
+	font-size: 1.5rem;
+	font-weight: 300;
+	margin: 0;
+	user-select: none;
+}
+
+code {
+	font-family: 'Roboto Mono', monospace;
+	font-size: 1.5rem;
+
+	background-color: #3a3a3c;
+	color: #eee;
+
+	padding: 0.5rem;
+	border-radius: 5px;
+	margin-top: 1rem;
+
+	transition: filter 0.2s;
+}
+
+code.disabled {
+	user-select: none;
+	filter: brightness(0.5);
+}
+
+main > button {
+	margin-top: 2rem;
+	padding: 0.75rem 2rem;
+	border: none;
+	border-radius: 5px;
+	background-color: #4d5;
+	color: #3a3a3c;
+	font-size: 1.5rem;
+	font-weight: 300;
+	cursor: pointer;
+
+	transition: filter 0.2s;
+}
+
+main > button:hover {
+	filter: brightness(0.8);
+}
+
+footer {
+	position: absolute;
+	right: 1rem;
+	bottom: 1rem;
+	font-size: 14px;
+	color: #aaa;
+	opacity: 0.5;
+	backdrop-filter: blur(5px);
+	user-select: none;
+}
+
+footer > a {
+	color: #aabada;
+	text-decoration: none;
+	user-select: all;
+}

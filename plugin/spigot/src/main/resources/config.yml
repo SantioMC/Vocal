@@ -1,0 +1,15 @@
+# This is the backend api url, the default port it runs on is 3000
+api-url: http://localhost:3000
+
+# This is the token used to authenticate between secure services (the servers and
+# the backend api). This should be the exact same one as the one in the backend api
+# .env file, while it is technically possible to not include one, it is highly not
+# recommended and should almost always be provided.
+app-token: MatchWhateverIsInYourEnv
+
+# This is the url to the web socket server (not livekit), the default port it runs
+# on is 3001
+socket: ws://localhost:3001
+
+# For more advanced details, please refer to the documentation inside the .env (or
+# .env.example) file in the backend api.
