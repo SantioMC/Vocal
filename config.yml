@@ -1,0 +1,15 @@
+# Bare minimum config to run LiveKit server for development,
+# See https://github.com/livekit/livekit/blob/master/config-sample.yaml 
+# for full list of options, do not use this default config in production
+
+port: 25576
+
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 60000
+  use_external_ip: false
+
+keys:
+  # key: secret, secret must be 32 characters
+  liveKitApiKey: liveKitApiSecretThatMatchesEnvAndIsLongEnough

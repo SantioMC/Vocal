@@ -1,0 +1,30 @@
+# We have the "website" directory and the "vocal-api" directory both with a Dockerfile in them
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    restart: always
+    ports:
+      - '7880:7880' # HTTP
+      - '7881:7881' # WebRTC over TCP
+      # - '50000:60000' # ICE over UDP (highly recommended)
+    volumes:
+      - ./config.yml:/app/config.yml
+    command: --bind 0.0.0.0 --config /app/config.yml
+
+  website:
+    build: ./website
+    restart: always
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+
+  api:
+    build: ./vocal-api
+    restart: always
+    ports:
+      - '8001:8001' # HTTP Rest API
+      - '8002:8002' # Websocket API
+    env_file:
+      - .env

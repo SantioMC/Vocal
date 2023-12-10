@@ -1,7 +1,9 @@
-FROM node:18-alpine
+FROM node:21-alpine
 
+WORKDIR /app
 COPY . .
-RUN npm install --production
 
+RUN npm install --production
 ENV NODE_ENV production
+
 CMD ["npm", "run", "start"]
