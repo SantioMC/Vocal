@@ -1,0 +1,96 @@
+{
+	"_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+	"meta": {
+		"version": "PTDL_v2",
+		"update_url": null
+	},
+	"exported_at": "2023-12-10T14:09:06-05:00",
+	"name": "Vocal Website",
+	"author": "admin@santio.me",
+	"description": null,
+	"features": null,
+	"docker_images": {
+		"Node 20": "ghcr.io/parkervcp/yolks:nodejs_20",
+		"Node 19": "ghcr.io/parkervcp/yolks:nodejs_19",
+		"Node 18": "ghcr.io/parkervcp/yolks:nodejs_18",
+		"Node 17": "ghcr.io/parkervcp/yolks:nodejs_17",
+		"Node 16": "ghcr.io/parkervcp/yolks:nodejs_16"
+	},
+	"file_denylist": [],
+	"startup": "node build/index.js",
+	"config": {
+		"files": "{}",
+		"startup": "{\r\n    \"done\": \"Listening on\"\r\n}",
+		"logs": "{}",
+		"stop": "^C^C"
+	},
+	"scripts": {
+		"installation": {
+			"script": "# Install Git\r\napk add --no-cache git\r\n# Move into the container and install Vocal\r\ncd /mnt/server\r\ngit clone https://github.com/SantioMC/Vocal VocalSrc\r\n# Move vocal into the directory\r\nmv VocalSrc/website/* . -f\r\nrm -rf VocalSrc\r\n# Build the website\r\nnpm install\r\nnpm run sync\r\nnpm run build\r\nrm -rf src/ static/",
+			"container": "node:21-alpine",
+			"entrypoint": "sh"
+		}
+	},
+	"variables": [
+		{
+			"name": "Server Name",
+			"description": "The name of your server, this will show up on the landing page",
+			"env_variable": "PUBLIC_SERVER_NAME",
+			"default_value": "Vocal",
+			"user_viewable": true,
+			"user_editable": true,
+			"rules": "string|max:40",
+			"field_type": "text"
+		},
+		{
+			"name": "Primary Color",
+			"description": "The main color used, not used much, recommended to just leave default.",
+			"env_variable": "PUBLIC_PRIMARY_COLOR",
+			"default_value": "#ffc2e3",
+			"user_viewable": true,
+			"user_editable": true,
+			"rules": "string|max:7|min:7|starts_with:#",
+			"field_type": "text"
+		},
+		{
+			"name": "Backend API URL",
+			"description": "This is the URL to the backend API, which handles",
+			"env_variable": "API_URL",
+			"default_value": "http://localhost:3000",
+			"user_viewable": true,
+			"user_editable": true,
+			"rules": "required|url",
+			"field_type": "text"
+		},
+		{
+			"name": "Websocket URL",
+			"description": "This is used by the website for instant updates from the backend such as stereo sound and more.",
+			"env_variable": "PUBLIC_SOCKET_URL",
+			"default_value": "ws://localhost:3001",
+			"user_viewable": true,
+			"user_editable": true,
+			"rules": "required|string|starts_with:ws",
+			"field_type": "text"
+		},
+		{
+			"name": "LiveKit URL",
+			"description": "The websocket URL for clients to connect with to LiveKit",
+			"env_variable": "PUBLIC_LIVEKIT_URL",
+			"default_value": "ws://localhost:7880",
+			"user_viewable": true,
+			"user_editable": true,
+			"rules": "required|string|starts_with:ws",
+			"field_type": "text"
+		},
+		{
+			"name": "Website Port",
+			"description": "The port to run the website on, this should be one of your allocated ports",
+			"env_variable": "PORT",
+			"default_value": "",
+			"user_viewable": true,
+			"user_editable": true,
+			"rules": "required|integer|max:65535",
+			"field_type": "text"
+		}
+	]
+}
