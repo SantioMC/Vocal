@@ -4,7 +4,7 @@
 
 <main>
 	<img
-		src="https://minotar.net/armor/bust/{$user?.uuid}/100.png"
+		src="https://skins.mcstats.com/bust/{$user?.uuid}"
 		alt="Minecraft Bust Avatar for {$user?.username}"
 	/>
 	<h1>Welcome, {$user?.username}</h1>
