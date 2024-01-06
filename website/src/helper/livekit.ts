@@ -9,17 +9,60 @@ import {
 import { PUBLIC_LIVEKIT_URL } from '$env/static/public';
 
 export const room = writable<Room | null>(null);
+export const publishMicrophone = async (
+	connection: Room,
+	microphone: string = 'default'
+) => {
+	await connection.localParticipant.setMicrophoneEnabled(true, {
+		echoCancellation: true,
+		autoGainControl: true,
+		noiseSuppression: true,
+		deviceId: microphone === 'default' ? undefined : microphone
+	});
+};
 
 export const connectRoom = async (token: TokenData) => {
 	const connection = new Room();
+	room.set(connection);
+
 	await connection.connect(PUBLIC_LIVEKIT_URL, token.token, {
 		autoSubscribe: false
 	});
 
 	console.log('connected to room', connection.name);
-	await connection.localParticipant.setMicrophoneEnabled(true);
+	await publishMicrophone(connection);
 
 	connection.on(RoomEvent.TrackSubscribed, handleTrackSubscribed);
+};
+
+export const getMicrophones = async (): Promise<AudioInput[]> => {
+	await navigator.mediaDevices.getUserMedia({ audio: true });
+	let devices = await navigator.mediaDevices.enumerateDevices();
+	devices = Array.from(devices);
+
+	return devices
+		.filter((d) => d.kind === 'audioinput')
+		.map((d) => {
+			let name = d.deviceId;
+
+			if (d.label.trim() === '') {
+				name = d.deviceId;
+			} else if (d.label.length > 40) {
+				name = d.label.substring(0, 37) + '...';
+			} else {
+				name = d.label;
+			}
+
+			return {
+				details: d,
+				name,
+				monitor: d.label.startsWith('Monitor of')
+			};
+		}) as AudioInput[];
+};
+
+export const setMicrophone = async (connection: Room, deviceId: string) => {
+	await publishMicrophone(connection, deviceId);
 };
 
 function handleTrackSubscribed(
@@ -70,4 +113,10 @@ export interface TokenData {
 	token: string;
 	room: string;
 	identity: string;
+}
+
+export interface AudioInput {
+	details: MediaDeviceInfo;
+	name: string;
+	monitor: boolean;
 }

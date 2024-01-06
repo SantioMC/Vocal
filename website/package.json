@@ -2,7 +2,7 @@
 	"name": "vocal",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "VITE_PORT=5173 vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"sync": "svelte-kit sync",

@@ -2,9 +2,14 @@
 	import Dashboard from '../components/Dashboard.svelte';
 	import Landing from '../components/Landing.svelte';
 	import Link from '../components/Link.svelte';
+	import { publishMicrophone, room } from '../helper/livekit';
 	import { user } from '../helper/user';
 
 	let stage = $user != null ? 'connected' : 'landing';
+
+	if ($user && $room && !$room.localParticipant.isMicrophoneEnabled) {
+		publishMicrophone($room);
+	}
 
 	const switchStage = (newStage: string) => () => {
 		stage = newStage;
