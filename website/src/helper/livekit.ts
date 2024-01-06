@@ -38,13 +38,32 @@ export const connectRoom = async (token: TokenData) => {
 	room.set(connection);
 
 	await connection.connect(PUBLIC_LIVEKIT_URL, token.token, {
-		autoSubscribe: true
+		autoSubscribe: false
 	});
 
 	console.log('connected to room', connection.name);
 	await publishMicrophone(connection);
 
+	connection.participants.forEach((participant) => {
+		participant.tracks.forEach((publication) => {
+			publication.setSubscribed(true);
+		});
+	});
+
 	connection.on(RoomEvent.TrackSubscribed, handleTrackSubscribed);
+
+	connection.on(RoomEvent.ParticipantConnected, (p) => {
+		console.log('participant connected', p);
+	});
+
+	connection.on(RoomEvent.ParticipantDisconnected, (p) => {
+		console.log('participant disconnected', p);
+	});
+
+	connection.on(RoomEvent.TrackPublished, (publication, participant) => {
+		publication.setSubscribed(true);
+		console.log('track published', publication, participant);
+	});
 };
 
 export const getMicrophones = async (): Promise<AudioInput[]> => {
