@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { localTrack } from '../helper/livekit';
 	import { user } from '../helper/user';
 	import Options from './Options.svelte';
+	import VolumeMeter from './VolumeMeter.svelte';
 </script>
 
 <Options />
@@ -13,6 +15,9 @@
 	<div class="text">
 		<h1>Welcome, {$user?.username}</h1>
 		<h2>You are currently connected to voice chat!</h2>
+		{#if $localTrack}
+			<VolumeMeter track={$localTrack} />
+		{/if}
 	</div>
 </main>
 
@@ -23,6 +28,7 @@
 
 	h2 {
 		font-size: 1.5em;
+		margin-bottom: 0.5rem;
 	}
 
 	.text {

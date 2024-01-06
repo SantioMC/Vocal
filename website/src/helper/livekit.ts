@@ -4,29 +4,41 @@ import {
 	RemoteTrack,
 	RemoteTrackPublication,
 	RemoteParticipant,
-	RoomEvent
+	RoomEvent,
+	LocalAudioTrack,
+	LocalTrackPublication
 } from 'livekit-client';
 import { PUBLIC_LIVEKIT_URL } from '$env/static/public';
 
 export const room = writable<Room | null>(null);
+export const localTrack = writable<LocalAudioTrack | null>(null);
+
 export const publishMicrophone = async (
 	connection: Room,
 	microphone: string = 'default'
 ) => {
-	await connection.localParticipant.setMicrophoneEnabled(true, {
+	const track = await connection.localParticipant.setMicrophoneEnabled(true, {
 		echoCancellation: true,
 		autoGainControl: true,
 		noiseSuppression: true,
 		deviceId: microphone === 'default' ? undefined : microphone
 	});
+
+	if (track && track.audioTrack) localTrack.set(track.audioTrack);
 };
 
 export const connectRoom = async (token: TokenData) => {
-	const connection = new Room();
+	const connection = new Room({
+		audioCaptureDefaults: {
+			echoCancellation: true,
+			autoGainControl: true,
+			noiseSuppression: true
+		}
+	});
 	room.set(connection);
 
 	await connection.connect(PUBLIC_LIVEKIT_URL, token.token, {
-		autoSubscribe: false
+		autoSubscribe: true
 	});
 
 	console.log('connected to room', connection.name);
